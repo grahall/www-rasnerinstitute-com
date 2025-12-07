@@ -1,652 +1,111 @@
-```astro
 ---
+// src/components/RasnerInstitute.astro
 import type { HTMLAttributes } from 'astro/types';
 
-interface Props extends HTMLAttributes<'div'> {
-  heroImage: string;
-  mobilePhoneNumber: string;
-  courseInfoLink: string;
-  fullCalendarLink: string;
-  newsletterSignupAction: string;
-  doctorRasnerImage: string;
-  speakerPacketLink: string;
-  contactPhoneNumber: string;
-  contactEmail: string;
-  testimonials: Testimonial[];
-}
-
-interface Testimonial {
-  imageSrc?: string;
-  videoUrl?: string; // For video testimonials
-  heading: string;
-  tagline?: string; // For roles like "Chairman of CE"
-  text?: string; // Main testimonial text
-  authorImage?: string; // Image for the testimonial author
-  authorImageAlt?: string;
-  readMoreId?: string; // For expanding text, e.g., 'dots1', 'more1', 'myBtn1'
+interface Props {
+  heroImageUrl?: string;
+  heroImageAlt?: string;
+  courseTitle?: string;
+  courseSubtitle?: string;
+  courseInfoLink?: string;
+  courseCalendarLink?: string;
+  newsletterHeadline?: string;
+  newsletterFormAction?: string;
+  speakerHeadline?: string;
+  speakerPacketLink?: string;
+  speakerDescription?: string;
+  contactHeadline?: string;
+  contactPhoneNumber?: string;
+  contactEmail?: string;
+  testimonialsHeadline?: string;
+  footerCopyright?: string;
 }
 
 const {
-  heroImage,
-  mobilePhoneNumber,
-  courseInfoLink,
-  fullCalendarLink,
-  newsletterSignupAction,
-  doctorRasnerImage,
-  speakerPacketLink,
-  contactPhoneNumber,
-  contactEmail,
-  testimonials,
-  ...rest
+  heroImageUrl = 'https://www.rasnerinstitute.com/Go/images/faces.webp',
+  heroImageAlt = 'Header image showing doctors working on patients',
+  courseTitle = 'HANDS - ON LIVE PATIENT SURGICAL COURSES',
+  courseSubtitle = 'with Dr. Steven Rasner',
+  courseInfoLink = '/Live-Patient-Surgical-Courses-Dental-CE.asp',
+  courseCalendarLink = '/Implant-Courses-Dental-CE-Calendar.asp',
+  newsletterHeadline = 'Gain Real World Experience so you can offer more to your patients',
+  newsletterFormAction = '/newslettersignup.asp',
+  speakerHeadline = 'Bring Dr. Rasner To Your Group',
+  speakerPacketLink = '/Content/pdf/Speaker-packet-LR.pdf',
+  speakerDescription = 'As a full-time practicing dentist, Dr. Rasner delivers practice management courses that are loaded with real-world solutions.',
+  contactHeadline = 'Book Dr. Rasner for your next event!',
+  contactPhoneNumber = '(800) 337-8435',
+  contactEmail = 'Info@RasnerInstitute.com',
+  testimonialsHeadline = 'What Our Students Say',
+  footerCopyright = '© Rasner Institute. All rights reserved.',
 } = Astro.props;
+
+const formatPhoneForHref = (phone: string) => `tel:${phone.replace(/[^0-9+]/g, '')}`;
+const mobileNavPhone = '(856) 457-7020';
 ---
 
-<div class="dental-ce-rasner-institute-container" {...rest}>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-
-  <div class="faces-wrapper">
-    <img src={heroImage} style="width:100%; height:100%;" alt="Header" />
-
-    <div class="main-menu">
-      <div class="home">
-        <div class="mobile-nav-wrap show-for-medium-down on-canvas clearfix">
-          <a class="phone ppc-number" href={`tel:${mobilePhoneNumber}`}>{mobilePhoneNumber}</a>
-          <a class="js-menu-toggle" href="#"><span class="title">Menu</span><span class="icon"></span></a>
-        </div>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasner Institute</title>
+    <style>
+      body { font-family: sans-serif; margin: 0; color: #333; }
+      .faces-wrapper img { width: 100%; height: auto; display: block; }
+      .main-menu { background-color: #f8f8f8; padding: 1rem; border-bottom: 1px solid #eee; }
+      .mobile-nav-wrap { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+      .mobile-nav-wrap .phone { font-weight: bold; color: #007bff; text-decoration: none; }
+      .info, .home-doc, .contact, .testimonials, .subscribe-wide { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; text-align: center; }
+      .info h3 { font-size: 2.2em; color: #2a2a2a; margin-bottom: 0.5rem; }
+      .info h4 { font-size: 1.5em; color: #555; margin-top: 0; }
+      .btn { display: inline-block; background-color: #007bff; color: white; padding: 0.8rem 1.5rem; margin: 0.5rem; border-radius: 5px; text-decoration: none; font-weight: bold; }
+      .subscribe-wide { background-color: #e9f5ff; padding: 3rem 1rem; }
+      .subscribe-wide h1 { font-size: 2.5em; color: #2a2a2a; }
+      .subscribe-wide h1 span { color: #007bff; }
+      .subscribe-wide input[type='submit'] { background-color: #28a745; color: white; padding: 1rem 2rem; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em; }
+      footer { background-color: #333; color: white; text-align: center; padding: 1.5rem 1rem; margin-top: 3rem; }
+    </style>
+  </head>
+  <body>
+    <div class="faces-wrapper">
+      <img src={heroImageUrl} alt={heroImageAlt} />
+    </div>
+    <nav class="main-menu">
+      <div class="mobile-nav-wrap">
+        <a class="phone" href={formatPhoneForHref(mobileNavPhone)}>{mobileNavPhone}</a>
+        <a href="#">Menu</a>
       </div>
-    </div>
-    <div class="info">
-      <h3>HANDS - ON<br />LIVE PATIENT SURGICAL COURSES<br /></h3>
-      <h4>with Dr. Steven Rasner</h4><br />
-      <div><a href={courseInfoLink} class="btn">View Course info</a></div>
-      <div><a href={fullCalendarLink} class="btn">View Full Calendar </a></div>
-    </div>
-  </div>
-
-  <div class="subscribe-wide">
-    <h1><span>Gain Real World Experience</span> so you can offer more to your patients and keep more production in-house</h1>
-
-    <form class="subscribe" action={newsletterSignupAction}>
-      <input type="submit" class="submit-btn" value="Sign Up For Our Newsletter" />
-    </form>
-  </div>
-
-  <main aria-label="contentinfo" role="main" id="main-content">
-    <div class="home-doc">
-      <div class="row">
-        <div class="media wow fadeIn" role="img" aria-label="Dr. Rasner" style={{ backgroundImage: `url(${doctorRasnerImage})` }}></div>
-        <div class="inner wow fadeIn">
-          <div class="lside">
-            <h2 class="name">Bring Dr. Rasner <br />To Your Group</h2>
-            <p class="tagline">
-              <a href={speakerPacketLink} target="_blank" aria-label="Opens in a new tab" class="golden-btn">View Speaker's Packet</a>
-            </p>
-          </div>
-          <div class="rside content">
-            <p>
-              As a full-time practicing dentist, Dr. Rasner delivers practice management courses that are loaded with real-world solutions. He also offers surgical courses that can be customized to meet the needs of your group.
-            </p>
-            <h2>
-              Book Dr. Rasner for your next event! <a href={`tel:${contactPhoneNumber}`}>{contactPhoneNumber}</a> <br /> Email: <a href={`mailto:${contactEmail}`} style="color:#fff; text-decoration:none; font-size:20px;">{contactEmail}</a>
-            </h2>
-          </div>
-        </div>
-        <div class="background wow fadeIn" role="img" aria-label="Dr. Rasner"></div>
-      </div>
-    </div>
-
-    <div class="slant slant-top"></div>
-    <div class="spacer"></div>
-  </main>
-
-  <div style="text-align:center; display:inline-block; width:100%; margin:3% 0 0 0;">
-    <div style="display:block; margin:0 auto; width:100%; max-width:1150px; padding:0 10px;">
-      <div id="content-main">
-        <div id="timeline" data-columns="3">
-          {testimonials.map((testimonial) => (
-            <div class="column size-1of4">
-              <div class="item">
-                <h4 class="box-heading">{testimonial.heading}</h4>
-                {testimonial.tagline && <div class="box-tagline">{testimonial.tagline}</div>}
-                {testimonial.videoUrl && (
-                  <div style="display:inline-block; width:100%;">
-                    <img
-                      src={testimonial.imageSrc}
-                      alt={testimonial.authorImageAlt || testimonial.heading}
-                      tabindex="0"
-                      class="lets-play"
-                      data-video={testimonial.videoUrl}
-                    />
-                  </div>
-                )}
-                {testimonial.text && (
-                  <p>
-                    {testimonial.authorImage && (
-                      <img
-                        src={testimonial.authorImage}
-                        alt={testimonial.authorImageAlt || testimonial.heading}
-                        title={testimonial.authorImageAlt || testimonial.heading}
-                        class="testi-img"
-                      />
-                    )}
-                    {testimonial.readMoreId ? (
-                      <>
-                        <span id={`dots${testimonial.readMoreId}`}>...</span>
-                        <span id={`more${testimonial.readMoreId}`}>&nbsp; {testimonial.text}</span>
-                        <span id={`myBtn${testimonial.readMoreId}`} role="button" tabindex="0">Read more</span>
-                      </>
-                    ) : (
-                      <>{testimonial.text}</>
-                    )}
-                  </p>
-                )}
-                 {!testimonial.text && testimonial.imageSrc && !testimonial.videoUrl && (
-                    <img
-                      src={testimonial.imageSrc}
-                      alt={testimonial.authorImageAlt || testimonial.heading}
-                      title={testimonial.authorImageAlt || testimonial.heading}
-                      class="testi-img"
-                    />
-                 )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<style lang="scss">
-  /*
-  The original CSS is extensive and contains many global styles, resets, and utility classes
-  from a framework (likely a custom one given the names).
-  For this component, I'm including only the styles that are either directly within
-  the component's HTML or are clearly scoped to the layout of the provided content.
-  In a real-world scenario, a proper CSS strategy (e.g., global styles, utility classes,
-  CSS modules, Tailwind, etc.) would be established.
-
-  The `.wow` and `visible` classes suggest an animation library like Animate.css + Wow.js.
-  These would typically be initialized via JavaScript. For this component, I'm not
-  including the JS for them, but the classes are present for styling purposes.
-  */
-
-  .faces-wrapper {
-    position: relative;
-    width: 100%;
-    overflow: hidden; /* Ensure content doesn't break out */
-  }
-
-  .faces-wrapper img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover; /* Ensures image covers the area */
-  }
-
-  .main-menu {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 10; /* Ensure menu is above the image */
-  }
-
-  .mobile-nav-wrap {
-    display: flex; /* Using flexbox for alignment */
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
-    color: #fff;
-
-    a {
-      color: inherit;
-      text-decoration: none;
-
-      &.phone {
-        font-weight: bold;
-      }
-
-      &.js-menu-toggle {
-        display: flex;
-        align-items: center;
-        gap: 5px; /* Space between "Menu" text and icon */
-
-        .icon {
-          // Placeholder for actual menu icon styling (e.g., hamburger lines)
-          width: 24px;
-          height: 24px;
-          border: 1px solid currentColor; // Example border
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.2em;
-        }
-      }
-    }
-  }
-
-  .info {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: #fff;
-    z-index: 5; /* Below menu, above hero image */
-    background: rgba(0, 0, 0, 0.6); /* Semi-transparent background for text */
-    padding: 20px;
-    border-radius: 8px;
-
-    h3 {
-      font-size: clamp(1.5rem, 3vw + 1rem, 2.5rem);
-      margin-bottom: 0.5em;
-      line-height: 1.2;
-    }
-
-    h4 {
-      font-size: clamp(1.2rem, 2vw + 1rem, 2rem);
-      margin-top: 0;
-    }
-
-    .btn {
-      display: inline-block;
-      margin: 10px;
-      padding: 10px 20px;
-      background-color: #f0a500; /* Example button color */
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-
-      &:hover {
-        background-color: #c98c00;
-      }
-    }
-  }
-
-  .subscribe-wide {
-    background-color: #333;
-    color: #fff;
-    padding: 40px 20px;
-    text-align: center;
-
-    h1 {
-      font-size: clamp(1.8rem, 3vw + 1rem, 3rem);
-      margin-bottom: 20px;
-
-      span {
-        color: #f0a500; /* Highlight color */
-      }
-    }
-
-    .subscribe {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px; /* Spacing between elements */
-      flex-wrap: wrap; /* Allow wrapping on smaller screens */
-
-      .submit-btn {
-        padding: 12px 25px;
-        background-color: #007bff; /* Example button color */
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: #0056b3;
-        }
-      }
-    }
-  }
-
-  .home-doc {
-    padding: 50px 0;
-    background-color: #f9f9f9;
-
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      margin: 0 auto;
-      align-items: center;
-      position: relative; /* For positioning the background image */
-      justify-content: center; /* Center content on smaller screens */
-    }
-
-    .media {
-      flex: 1 1 300px; /* Allow media to grow/shrink, with a base of 300px */
-      min-height: 300px; /* Ensures the image has a visible height */
-      background-size: cover !important; /* Important due to inline style override */
-      background-position: center bottom !important;
-      background-repeat: no-repeat !important;
-      margin: 20px;
-      border-radius: 8px;
-    }
-
-    .inner {
-      flex: 2 1 400px;
-      padding: 20px;
-      margin: 20px;
-      background-color: #fafafa;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-wrap: wrap; /* Allow internal content to wrap */
-      gap: 20px;
-
-      .lside,
-      .rside {
-        flex: 1 1 200px; /* Allow these sidebars to grow/shrink */
-      }
-
-      .lside {
-        text-align: center;
-
-        .name {
-          font-size: 2.2em;
-          color: #333;
-          margin-bottom: 15px;
-        }
-
-        .golden-btn {
-          display: inline-block;
-          padding: 10px 20px;
-          background-color: #f0a500;
-          color: #fff;
-          text-decoration: none;
-          border-radius: 5px;
-          transition: background-color 0.3s ease;
-
-          &:hover {
-            background-color: #c98c00;
-          }
-        }
-      }
-
-      .rside {
-        p {
-          font-size: 1.1em;
-          line-height: 1.6;
-          color: #555;
-          margin-bottom: 20px;
-        }
-
-        h2 {
-          font-size: 1.5em;
-          color: #f0a500;
-          margin-top: 0;
-
-          a {
-            color: #f0a500;
-            text-decoration: none;
-            transition: color 0.3s ease;
-
-            &:hover {
-              color: #c98c00;
-            }
-          }
-        }
-      }
-    }
-
-    .background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url("/Go/images/doc-info-text.webp") !important;
-      background-size: cover !important;
-      background-position: center bottom !important;
-      background-repeat: no-repeat !important;
-      z-index: 0; /* Behind other content */
-      opacity: 0.1; /* Subtle effect */
-    }
-  }
-
-  .slant {
-    width: 100%;
-    height: 50px; /* Adjust height as needed for the slant */
-    background-color: #f9f9f9;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .slant-top::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: inherit;
-    transform: skewY(-2deg); /* Adjust angle for desired slant */
-    transform-origin: top left;
-  }
-
-  .spacer {
-    height: 50px; /* Provides space between sections */
-    width: 100%;
-  }
-
-  #timeline {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
-    gap: 30px;
-    padding: 20px;
-
-    .column {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .item {
-      background-color: #fff;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      text-align: left; /* Default for text */
-
-      h4.box-heading {
-        color: #333;
-        font-size: 1.4em;
-        margin-top: 0;
-        margin-bottom: 10px;
-      }
-
-      .box-tagline {
-        color: #777;
-        font-size: 0.9em;
-        margin-bottom: 15px;
-      }
-
-      p {
-        font-size: 0.95em;
-        line-height: 1.6;
-        color: #666;
-        margin-top: 0;
-      }
-
-      img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 4px;
-        margin-bottom: 15px;
-        display: block; /* Prevent extra space below image */
-
-        &.testi-img {
-          float: left;
-          margin-right: 15px;
-          margin-bottom: 10px;
-          max-width: 150px; /* Limit size for flowing text */
-        }
-      }
-
-      .lets-play {
-        cursor: pointer;
-      }
-
-      span[id^="dots"],
-      span[id^="more"] {
-        display: inline;
-      }
-
-      span[id^="myBtn"] {
-        color: #007bff;
-        cursor: pointer;
-        text-decoration: underline;
-        margin-left: 5px;
-        &:hover {
-          color: #0056b3;
-        }
-      }
-    }
-  }
-
-  /* Responsive Adjustments for general layout */
-  @media (max-width: 991px) {
-    .home-doc .inner {
-      flex-direction: column; /* Stack lside and rside */
-      .lside, .rside {
-        flex: auto;
-      }
-    }
-  }
-
-  @media (max-width: 767px) {
-    .info {
-      padding: 15px;
-      h3 {
-        font-size: 1.8rem;
-      }
-      h4 {
-        font-size: 1.4rem;
-      }
-    }
-
-    .mobile-nav-wrap {
-      padding: 10px;
-      .phone {
-        font-size: 0.9em;
-      }
-      .js-menu-toggle .title {
-        display: none; /* Hide "Menu" text, only show icon */
-      }
-    }
-  }
-
-  // Placeholder for Wow.js animation styles - these would typically be handled by the library
-  // but included for completeness if a custom animation solution is chosen.
-  .wow {
-    visibility: hidden;
-    animation-duration: 1s; /* Default duration */
-    animation-fill-mode: both;
-  }
-
-  .wow.fadeIn {
-    animation-name: fadeIn;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-</style>
-
-<script>
-  // Client-side JavaScript for "Read more" functionality and video modals
-  document.addEventListener('DOMContentLoaded', () => {
-    // Read More functionality
-    document.querySelectorAll('[id^="myBtn"]').forEach(button => {
-      button.addEventListener('click', function() {
-        const id = this.id.replace('myBtn', '');
-        const dots = document.getElementById(`dots${id}`);
-        const moreText = document.getElementById(`more${id}`);
-
-        if (dots && moreText) {
-          if (dots.style.display === "none") {
-            dots.style.display = "inline";
-            this.textContent = "Read more";
-            moreText.style.display = "none";
-          } else {
-            dots.style.display = "none";
-            this.textContent = "Read less";
-            moreText.style.display = "inline";
-          }
-        }
-      });
-    });
-
-    // Initialize display for "Read more" sections on load
-    document.querySelectorAll('[id^="dots"]').forEach(dots => {
-      dots.style.display = "inline";
-    });
-    document.querySelectorAll('[id^="more"]').forEach(more => {
-      more.style.display = "none";
-    });
-
-    // Video Lightbox (simplified example)
-    document.querySelectorAll('.lets-play').forEach(videoTrigger => {
-      videoTrigger.addEventListener('click', function() {
-        const videoUrl = this.dataset.video;
-        if (videoUrl) {
-          // In a real app, you'd integrate a proper lightbox/modal library
-          // For demonstration, a simple embedded iframe in a basic modal:
-          const modal = document.createElement('div');
-          modal.style.cssText = `
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 9999;
-            display: flex; justify-content: center; align-items: center;
-          `;
-          modal.innerHTML = `
-            <div style="background: white; padding: 20px; border-radius: 8px; position: relative; max-width: 90%; max-height: 90%;">
-              <button style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 1.5em; cursor: pointer;">&times;</button>
-              <iframe src="${videoUrl}?autoplay=1" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-            </div>
-          `;
-          document.body.appendChild(modal);
-
-          modal.querySelector('button')?.addEventListener('click', () => {
-            modal.remove();
-          });
-
-          modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-              modal.remove();
-            }
-          });
-        }
-      });
-    });
-  });
-
-  // Basic Polyfill for 'dataset' for older browsers if needed
-  // This might not be necessary for modern Astro/browsers.
-  // if (!('dataset' in document.documentElement)) {
-  //   Object.defineProperty(HTMLElement.prototype, 'dataset', {
-  //     get: function() {
-  //       const attributes = this.attributes;
-  //       const dataset = {};
-  //       for (let i = 0; i < attributes.length; i++) {
-  //         const attribute = attributes[i];
-  //         if (attribute.name.startsWith('data-')) {
-  //           const key = attribute.name.substring(5).replace(/-([a-z])/g, (g) => g[1].toUpperCase());
-  //           dataset[key] = attribute.value;
-  //         }
-  //       }
-  //       return dataset;
-  //     }
-  //   });
-  // }
-</script>
-```
+    </nav>
+    <section class="info">
+      <h3>{courseTitle}</h3>
+      <h4>{courseSubtitle}</h4>
+      <a href={courseInfoLink} class="btn">View Course info</a>
+      <a href={courseCalendarLink} class="btn">View Full Calendar</a>
+    </section>
+    <section class="subscribe-wide">
+      <h1><span>Gain Real World Experience</span> so you can offer more to your patients</h1>
+      <form action={newsletterFormAction}>
+        <input type="submit" value="Sign Up For Our Newsletter" />
+      </form>
+    </section>
+    <main id="main-content">
+      <section class="home-doc">
+        <h2>{speakerHeadline}</h2>
+        <a href={speakerPacketLink}>View Speakers Packet</a>
+        <p>{speakerDescription}</p>
+      </section>
+      <section class="contact">
+        <h2>{contactHeadline}</h2>
+        <a href={formatPhoneForHref(contactPhoneNumber)}>{contactPhoneNumber}</a>
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+      </section>
+      <section class="testimonials">
+        <h2>{testimonialsHeadline}</h2>
+        <slot name="testimonials" />
+      </section>
+    </main>
+    <footer>
+      <p>{footerCopyright}</p>
+    </footer>
+  </body>
+</html>
