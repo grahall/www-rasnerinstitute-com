@@ -1,0 +1,109 @@
+---
+// src/components/RasnerInstitute.astro
+interface Props {
+  heroImageUrl?: string;
+  heroImageAlt?: string;
+  courseTitle?: string;
+  courseSubtitle?: string;
+  courseInfoLink?: string;
+  courseCalendarLink?: string;
+  newsletterHeadline?: string;
+  newsletterFormAction?: string;
+  speakerHeadline?: string;
+  speakerPacketLink?: string;
+  speakerDescription?: string;
+  contactHeadline?: string;
+  contactPhoneNumber?: string;
+  contactEmail?: string;
+  testimonialsHeadline?: string;
+  footerCopyright?: string;
+}
+
+const {
+  heroImageUrl = 'https://www.rasnerinstitute.com/Go/images/faces.webp',
+  heroImageAlt = 'Header image showing doctors working on patients',
+  courseTitle = 'HANDS - ON LIVE PATIENT SURGICAL COURSES',
+  courseSubtitle = 'with Dr. Steven Rasner',
+  courseInfoLink = '/Live-Patient-Surgical-Courses-Dental-CE.asp',
+  courseCalendarLink = '/Implant-Courses-Dental-CE-Calendar.asp',
+  newsletterHeadline = 'Gain Real World Experience so you can offer more to your patients',
+  newsletterFormAction = '/newslettersignup.asp',
+  speakerHeadline = 'Bring Dr. Rasner To Your Group',
+  speakerPacketLink = '/Content/pdf/Speaker-packet-LR.pdf',
+  speakerDescription = 'As a full-time practicing dentist, Dr. Rasner delivers practice management courses that are loaded with real-world solutions.',
+  contactHeadline = 'Book Dr. Rasner for your next event!',
+  contactPhoneNumber = '(800) 337-8435',
+  contactEmail = 'Info@RasnerInstitute.com',
+  testimonialsHeadline = 'What Our Students Say',
+  footerCopyright = '© Rasner Institute. All rights reserved.',
+} = Astro.props;
+
+const formatPhoneForHref = (phone: string) => `tel:${phone.replace(/[^0-9+]/g, '')}`;
+const mobileNavPhone = '(856) 457-7020';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasner Institute</title>
+    <style>
+      body { font-family: sans-serif; margin: 0; color: #333; }
+      .faces-wrapper img { width: 100%; height: auto; display: block; }
+      .main-menu { background-color: #f8f8f8; padding: 1rem; border-bottom: 1px solid #eee; }
+      .mobile-nav-wrap { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+      .mobile-nav-wrap .phone { font-weight: bold; color: #007bff; text-decoration: none; }
+      .info, .home-doc, .contact, .testimonials, .subscribe-wide { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; text-align: center; }
+      .info h3 { font-size: 2.2em; color: #2a2a2a; margin-bottom: 0.5rem; }
+      .info h4 { font-size: 1.5em; color: #555; margin-top: 0; }
+      .btn { display: inline-block; background-color: #007bff; color: white; padding: 0.8rem 1.5rem; margin: 0.5rem; border-radius: 5px; text-decoration: none; font-weight: bold; }
+      .subscribe-wide { background-color: #e9f5ff; padding: 3rem 1rem; }
+      .subscribe-wide h1 { font-size: 2.5em; color: #2a2a2a; }
+      .subscribe-wide h1 span { color: #007bff; }
+      .subscribe-wide input[type='submit'] { background-color: #28a745; color: white; padding: 1rem 2rem; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em; }
+      footer { background-color: #333; color: white; text-align: center; padding: 1.5rem 1rem; margin-top: 3rem; }
+    </style>
+  </head>
+  <body>
+    <div class="faces-wrapper">
+      <img src={heroImageUrl} alt={heroImageAlt} />
+    </div>
+    <nav class="main-menu">
+      <div class="mobile-nav-wrap">
+        <a class="phone" href={formatPhoneForHref(mobileNavPhone)}>{mobileNavPhone}</a>
+        <a href="#">Menu</a>
+      </div>
+    </nav>
+    <section class="info">
+      <h3>{courseTitle}</h3>
+      <h4>{courseSubtitle}</h4>
+      <a href={courseInfoLink} class="btn">View Course info</a>
+      <a href={courseCalendarLink} class="btn">View Full Calendar</a>
+    </section>
+    <section class="subscribe-wide">
+      <h1><span>Gain Real World Experience</span> so you can offer more to your patients</h1>
+      <form action={newsletterFormAction}>
+        <input type="submit" value="Sign Up For Our Newsletter" />
+      </form>
+    </section>
+    <main id="main-content">
+      <section class="home-doc">
+        <h2>{speakerHeadline}</h2>
+        <a href={speakerPacketLink}>View Speakers Packet</a>
+        <p>{speakerDescription}</p>
+      </section>
+      <section class="contact">
+        <h2>{contactHeadline}</h2>
+        <a href={formatPhoneForHref(contactPhoneNumber)}>{contactPhoneNumber}</a>
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+      </section>
+      <section class="testimonials">
+        <h2>{testimonialsHeadline}</h2>
+        <slot name="testimonials" />
+      </section>
+    </main>
+    <footer>
+      <p>{footerCopyright}</p>
+    </footer>
+  </body>
+</html>
